@@ -1,12 +1,36 @@
-const itemsUrl = 'https://hacker-news.firebaseio.com/v0/topstories.json'
-const getStory = 'https://hacker-news.firebaseio.com/v0/item/'
+const urls = {
+  top: 'topstories.json',
+  new: 'newstories.json',
+  best: 'beststories.json',
+  ask: 'askstories.json',
+  show: 'showstories.json',
+  job: 'jobstories.json'
+}
 
-const body = document.body
+const itemList = {}
 
-fetch(itemsUrl).then((data) => { return data.json() }).then(getItem)
+const url = 'https://hacker-news.firebaseio.com/v0/'
 
-function getItem (data) {
-  for (let i = 0; i <= 10; i++) {
-    fetch(`${getStory}${data[i]}.json`).then(data => { return data.json() }).then(obj => console.log(obj))
+for (let i in urls) {
+  fetch(`${url}${urls[i]}`)
+    .then(toJSON)
+    .then((data) => {
+      itemList[i] = data.slice(0, 10)
+      getItems(itemList[i])
+    })
+    .catch(handleErr)
+}
+
+function toJSON (data) {
+  return data.json()
+}
+
+function handleErr (err) {
+  console.error(err)
+}
+
+function getItems (list) {
+  for (let i of list) {
+    fetch(`${url}/item/${i}.json`).then((data) => { return data.json() }).then(console.log)
   }
 }
