@@ -24,9 +24,10 @@ function handleErr (err) {
   console.error(err)
 }
 
-function getItems (itemList) {
-  stories = itemList.map((i) => { return fetch(`${url}item/${i}.json`) })
-  console.log(stories)
+function fetchEach (itemList) {
+  stories = itemList.map((i) => {
+    return fetch(`${url}item/${i}.json`)
+  })
 }
 
-itemList.top.then(toJSON).then(getItems).catch(handleErr)
+itemList.top.then(toJSON).then(fetchEach).catch(handleErr)
