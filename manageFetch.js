@@ -8,7 +8,6 @@ const urls = {
 }
 
 const itemList = {}
-let stories = []
 
 const url = 'https://hacker-news.firebaseio.com/v0/'
 
@@ -24,10 +23,12 @@ function handleErr (err) {
   console.error(err)
 }
 
-function fetchEach (itemList) {
-  stories = itemList.map((i) => {
-    return fetch(`${url}item/${i}.json`)
-  })
+function pushEach (list) {
+  stories.items.push(list)
 }
 
-itemList.top.then(toJSON).then(fetchEach).catch(handleErr)
+function getItem (data) {
+  data.map((i) => { fetch(`${url}item/${i}.json`).then(toJSON).then(pushEach) })
+}
+
+itemList.top.then(toJSON).then(getItem).catch(handleErr)
