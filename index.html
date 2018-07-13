@@ -2,14 +2,23 @@
 <html lang='en'>
   <head>
     <meta charset='utf-8'>
+    <style>
+      h1 {
+        text-align: center;
+        font: italic 1em "Fira Sans", serif;
+      }
+    </style>
   </head>
   <body>
-    <div id="items">
-      <ul id="stories"> 
-      </ul>
+    <h1>HackerNews-Client</h1>
+    <div id="stories">
+      <div v-for="i of items" v-bind:class="{ item: add }" v-bind:style="itemStyle">
+        <a v-bind:href="i.url" v-bind:style="linkStyle">{{ i.title }}</a>
+        <p><span v-bind:style="fieldStyle">By: {{i.by}}</span><span v-bind:style="fieldStyle">Score: {{i.score}}</span><span v-bind:style="fieldStyle">{{ i.descendants }} comments</span></p>
+      </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
-    <script src='./manageFetch.js'></script>
-    <script src='./populateStories.js'></script>
+    <script src="./populateStories.js"></script>
+    <script src="./manageFetch.js"></script>
   </body>
 </html>
