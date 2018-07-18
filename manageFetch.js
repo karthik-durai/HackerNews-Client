@@ -24,11 +24,22 @@ function handleErr (err) {
 }
 
 function pushEach (list) {
-  stories.items.push(list)
+  // stories.items.push(list)
 }
 
 function getItem (data) {
-  data.map((i) => { fetch(`${url}item/${i}.json`).then(toJSON).then(pushEach) })
+  data.map(id => fetch(`${url}item/${id}.json`).then(toJSON))
 }
 
-itemList.top.then(toJSON).then(getItem).catch(handleErr)
+function splitItemArr (i, data) {
+  itemList[i] = []
+  while (data.length > 0) {
+    itemList[i].push(data.splice(0, 20))
+  }
+}
+
+for (const i in itemList) {
+  itemList[i].then(toJSON).then(data => { splitItemArr(i, data) }).catch(handleErr)
+}
+
+console.log(itemList)
