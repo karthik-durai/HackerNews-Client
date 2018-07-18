@@ -12,7 +12,8 @@ const itemList = {}
 const url = 'https://hacker-news.firebaseio.com/v0/'
 
 for (let i in urls) {
-  itemList[i] = fetch(`${url}${urls[i]}`)
+  //  itemList[i] = fetch(`${url}${urls[i]}`)
+  fetch(`${url}${urls[i]}`).then(toJSON).then(data => { splitItemArr(i, data) }).catch(handleErr)
 }
 
 function toJSON (data) {
@@ -38,8 +39,6 @@ function splitItemArr (i, data) {
   }
 }
 
-for (const i in itemList) {
+/*  for (const i in itemList) {
   itemList[i].then(toJSON).then(data => { splitItemArr(i, data) }).catch(handleErr)
-}
-
-console.log(itemList)
+} */
