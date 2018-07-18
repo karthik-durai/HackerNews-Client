@@ -2,19 +2,27 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="./styles.css">
   </head>
   <body>
     <div id='nav'>
       <ul>
-        <li>TOP</li>
-        <li>NEW</li>
-        <li>BEST</li>
-        <li>ASK</li>
-        <li>SHOW</li>
-        <li>JOBS</li>
+        <li v-on:click="setStory"><a href="#">TOP</a></li>
+        <li v-on:click="setStory"><a href="#">NEW</a></li>
+        <li v-on:click="setStory"><a href="#">BEST</a></li>
+        <li v-on:click="setStory"><a href="#">ASK</a></li>
+        <li v-on:click="setStory"><a href="#">SHOW</a></li>
+        <li v-on:click="setStory"><a href="#">JOBS</a></li>
       </ul>
     </div>
-    <div id='top'></div>
+    <div id='main'>
+      <nav>
+        <button v-on:click="decCount" v-bind:disabled="count <= 1">Prev</button>
+        <span>{{ count }}</span>
+        <!-- <button v-on:click="incCount">Next</button> -->
+        <button v-on:click="incCount">Next</button> 
+      </nav>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
     <script src="./manageFetch.js"></script>
     <script src="./main.js"></script>
