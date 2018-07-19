@@ -23,9 +23,8 @@ const mainOptions = {
   data: {
     count: 1,
     story: 'top'
-  }
+  },
 }
 
 Vue.component('nav-items', navItemOptions)
-//  const main = new Vue(mainOptions)
 const nav = new Vue(navOptions)
