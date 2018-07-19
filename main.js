@@ -1,13 +1,19 @@
-console.log(itemList)
+//  console.log(itemList)
+
+const navItemOptions = {
+  template: `<li v-on:click="$emit('disp', $event)"><a href='#'>{{ item }}</a></li>`,
+  props: ['item']
+}
 
 const navOptions = {
   el: '#nav',
   data: {
-    story: ''
+    story: '',
+    navItems: ['TOP', 'NEW', 'BEST', 'SHOW', 'ASK', 'JOBS']
   },
   methods: {
-    setStory: function (e) {
-      this.story = e.target.text
+    display: function (e) {
+      console.log(e.target.text)
     }
   }
 }
@@ -15,21 +21,11 @@ const navOptions = {
 const mainOptions = {
   el: '#main',
   data: {
-    count: 1
-  },
-  methods: {
-    incCount: function () {
-      this.count++
-    },
-    decCount: function () {
-      this.count--
-    },
-    getItems: function () {
-      //  return itemList[type][count]
-      console.log('hello')
-    }
+    count: 1,
+    story: 'top'
   }
 }
 
+Vue.component('nav-items', navItemOptions)
+//  const main = new Vue(mainOptions)
 const nav = new Vue(navOptions)
-const main = new Vue(mainOptions)
