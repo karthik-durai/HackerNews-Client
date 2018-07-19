@@ -11,12 +11,15 @@
           v-for="item in navItems"
           v-bind:key="navItems.indexOf(item)"
           v-bind:item="item"
-          v-on:disp="display">
+          v-on:story="setStory">
         </nav-items> 
       </ul>
     </div>
     <div id='main'> 
       <nav>
+        <button v-on:click="alterPgno">Prev</button>
+        <span>{{ pgno }}</button>
+        <button v-on:click="alterPgno">Next</button>
       </nav>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
