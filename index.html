@@ -7,22 +7,22 @@
   <body>
     <div id='nav'>
       <ul>
-        <li v-on:click="setStory"><a href="#">TOP</a></li>
-        <li v-on:click="setStory"><a href="#">NEW</a></li>
-        <li v-on:click="setStory"><a href="#">BEST</a></li>
-        <li v-on:click="setStory"><a href="#">ASK</a></li>
-        <li v-on:click="setStory"><a href="#">SHOW</a></li>
-        <li v-on:click="setStory"><a href="#">JOBS</a></li>
+        <nav-items
+          v-for="item in navItems"
+          v-bind:key="navItems.indexOf(item)"
+          v-bind:item="item"
+          v-on:disp="display">
+        </nav-items> 
       </ul>
     </div>
-    <div id='main'>
+    <!--  <div id='main'> 
       <nav>
         <button v-on:click="decCount" v-bind:disabled="count <= 1">Prev</button>
         <span>{{ count }}</span>
-        <!-- <button v-on:click="incCount">Next</button> -->
-        <button v-on:click="incCount">Next</button> 
+        <button v-on:click="incCount" v:bind:disabled="disable">Next</button> 
+        <p>{{ listLength }}</p>
       </nav>
-    </div>
+    </div> -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
     <script src="./manageFetch.js"></script>
     <script src="./main.js"></script>
