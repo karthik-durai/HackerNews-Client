@@ -21,6 +21,13 @@
         <pgno v-bind:pgno="pgno"></pgno>
         <button-nav v-bind:nav="button2" v-on:alter="alterPgNo"></button-nav>
       </nav>
+      <ul>
+        <item-li 
+          v-for="item of list"
+          v-bind:key="list.indexOf(item)"
+          v-bind:item="item">
+        </item-li>
+      </ul>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
     <script src="./manageFetch.js"></script>
