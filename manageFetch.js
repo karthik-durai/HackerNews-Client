@@ -18,3 +18,7 @@ for (let i in urls) {
 function toJSON (data) {
   return data.json()
 }
+
+function getEach (id) {
+  return fetch(`${url}item/${id}.json`).then(toJSON)
+}
