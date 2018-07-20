@@ -1,0 +1,50 @@
+.nav-items {
+  list-style-type: none;
+  display: inline-block;
+  margin: 5px;
+  flex: 1;
+}
+
+.nav-items a {
+  color: #f9a03f;
+  text-decoration: none;
+}
+
+.nav {
+  display: flex;
+  background-color: #000000;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+}
+
+.btn * {
+  margin: 5px;
+}
+
+.btn span {
+  padding: 9px;
+}
+
+.item {
+  list-style-type: none;
+  background-color: #f9a03f;
+  margin-bottom: 10px;
+  margin-right: 20px;
+  padding-top: 1px
+}
+
+.item a {
+  color: #000000;
+  text-decoration: none;
+  text-align: center;
+  font-size: 20px
+}
+
+.item span {
+  background-color: #1e1e20;
+  color: #40e4d4;
+  margin: 5px;
+  padding: 3px;
