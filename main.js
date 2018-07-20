@@ -1,5 +1,8 @@
 //  console.log(itemList)
 
+const segList = {}
+const items = []
+
 let nav
 let main
 
@@ -24,20 +27,21 @@ function processList (data) {
 }
 
 function segArr (j, data) {
-  main.segList[j] = []
+  segList[j] = []
+  segList[j].push('')
   while (data.length > 0) {
-    main.segList[j].push(data.splice(0, 15))
+    segList[j].push(data.splice(0, 15))
   }
 }
 
 const itemCompOptions = {
-  template: `<li>{{ item }}</li>`,
+  template: `<li><a v-bind:href="item.url"><p>{{ item.title }}</p></a></li>`,
   props: ['item']
 }
 
 const btnCompOptions = {
-  template: `<div><button v-on:click="$emit('alter', $event)">{{ nav }}</button></div>`,
-  props: ['nav']
+  template: `<div><button v-on:click="$emit('alter', $event)" v-bind:disabled="isdisabled">{{ nav }}</button></div>`,
+  props: ['nav', 'isdisabled']
 }
 
 const navCompOptions = {
@@ -53,13 +57,24 @@ const pgNoCompOptions = {
 const navOptions = {
   el: '#nav',
   data: {
-    story: 'top',
+    story: 'TOP',
     navItems: ['TOP', 'NEW', 'BEST', 'SHOW', 'ASK', 'JOBS']
   },
   methods: {
     setStory: function (e) {
       this.story = e.target.text.toLowerCase()
       main.story = this.story
+    }
+  },
+  watch: {
+    story: function () {
+      console.log('story changed')
+      items.length = 0
+      for (const i of main.list) {
+        getEach(i).then(item => {
+          items.push(item)
+        })
+      }
     }
   }
 }
@@ -68,10 +83,10 @@ const mainOptions = {
   el: '#main',
   data: {
     pgno: 1,
-    story: 'top',
+    story: 'TOP',
     button1: 'Prev',
     button2: 'Next',
-    segList: {}
+    renderItems: items,
   },
   methods: {
     alterPgNo: function (e) {
@@ -85,9 +100,34 @@ const mainOptions = {
   computed: {
     list: function () {
       try {
-        return this.segList[this.story][this.pgno]
+        return segList[this.story][this.pgno]
       } catch (e) {
         console.error(e)
+      }
+    },
+    prevDis: function () {
+      if (this.pgno <= 1) {
+        return true
+      } else {
+        return false
+      }
+    },
+    nextDis: function () {
+      if (this.pgno >= this.renderItems.length) {
+        return true
+      } else {
+        return false
+      }
+    }
+  },
+  watch: {
+    pgno: function () {
+      console.log('pgno changed')
+      items.length = 0
+      for (const i of this.list) {
+        getEach(i).then(item => {
+          items.push(item)
+        })
       }
     }
   }
