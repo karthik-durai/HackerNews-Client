@@ -17,14 +17,14 @@
     </div>
     <div id='main'> 
       <nav>
-        <button-nav v-bind:nav="button1" v-on:alter="alterPgNo"></button-nav>
+        <button-nav v-bind:nav="button1" v-on:alter="alterPgNo" v-bind:isdisabled="prevDis"></button-nav>
         <pgno v-bind:pgno="pgno"></pgno>
-        <button-nav v-bind:nav="button2" v-on:alter="alterPgNo"></button-nav>
+        <button-nav v-bind:nav="button2" v-on:alter="alterPgNo" v-bind:isdisabled="nextDis"></button-nav>
       </nav>
       <ul>
         <item-li 
-          v-for="item of list"
-          v-bind:key="list.indexOf(item)"
+          v-for="item of renderItems"
+          v-bind:key="item.id"
           v-bind:item="item">
         </item-li>
       </ul>
