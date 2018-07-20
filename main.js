@@ -3,18 +3,6 @@
 const segList = {}
 const items = []
 
-let nav
-let main
-
-function render (data) {
-  Vue.component('item-li', itemCompOptions)
-  Vue.component('nav-items', navCompOptions)
-  Vue.component('button-nav', btnCompOptions)
-  Vue.component('pgno', pgNoCompOptions)
-  nav = new Vue(navOptions)
-  main = new Vue(mainOptions)
-}
-
 Promise.all(itemList).then(processList).catch(console.error)
 
 function processList (data) {
@@ -23,10 +11,10 @@ function processList (data) {
       data[i][j].then(data => segArr(j, data)).catch(console.error)
     }
   }
-  render()
 }
 
 function segArr (j, data) {
+  console.log(data)
   segList[j] = []
   segList[j].push('')
   while (data.length > 0) {
@@ -35,7 +23,7 @@ function segArr (j, data) {
 }
 
 const itemCompOptions = {
-  template: `<li><a v-bind:href="item.url"><p>{{ item.title }}</p></a></li>`,
+  template: `<li class="item"><a v-bind:href="item.url"><p>{{ item.title }}</p></a><span>By: {{ item.by }}</span><span>Comments: {{ item.descendants }}</span><span>Score: {{ item.score }}</span></li>`,
   props: ['item']
 }
 
@@ -45,7 +33,7 @@ const btnCompOptions = {
 }
 
 const navCompOptions = {
-  template: `<li v-on:click="$emit('story', $event)"><a href='#'>{{ item }}</a></li>`,
+  template: `<li v-on:click="$emit('story', $event)" class="nav-items"><a href='#'>{{ item }}</a></li>`,
   props: ['item']
 }
 
@@ -86,7 +74,7 @@ const mainOptions = {
     story: 'TOP',
     button1: 'Prev',
     button2: 'Next',
-    renderItems: items,
+    renderItems: items
   },
   methods: {
     alterPgNo: function (e) {
@@ -132,3 +120,10 @@ const mainOptions = {
     }
   }
 }
+
+Vue.component('item-li', itemCompOptions)
+Vue.component('nav-items', navCompOptions)
+Vue.component('button-nav', btnCompOptions)
+Vue.component('pgno', pgNoCompOptions)
+const nav = new Vue(navOptions)
+const main = new Vue(mainOptions)
