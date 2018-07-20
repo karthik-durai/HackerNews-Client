@@ -6,7 +6,7 @@
   </head>
   <body>
     <div id='nav'>
-      <ul>
+      <ul class="nav">
         <nav-items
           v-for="item in navItems"
           v-bind:key="navItems.indexOf(item)"
@@ -16,7 +16,7 @@
       </ul>
     </div>
     <div id='main'> 
-      <nav>
+      <nav class="btn">
         <button-nav v-bind:nav="button1" v-on:alter="alterPgNo" v-bind:isdisabled="prevDis"></button-nav>
         <pgno v-bind:pgno="pgno"></pgno>
         <button-nav v-bind:nav="button2" v-on:alter="alterPgNo" v-bind:isdisabled="nextDis"></button-nav>
