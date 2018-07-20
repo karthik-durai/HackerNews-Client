@@ -1,26 +1,47 @@
-console.log(itemList)
+//  console.log(itemList)
 
-itemList['top'].then(render)
+const segList = {}
+
+let nav
+let main
 
 function render (data) {
-  Vue.component('nav-items', navItemOptions)
-  Vue.component('button-nav', buttonNavOptions)
-  Vue.component('pgno', pgNoOptions)
-  const nav = new Vue(navOptions)
-  const main = new Vue(mainOptions)
+  Vue.component('nav-items', navCompOptions)
+  Vue.component('button-nav', btnCompOptions)
+  Vue.component('pgno', pgNoCompOptions)
+  nav = new Vue(navOptions)
+  main = new Vue(mainOptions)
 }
 
-const buttonNavOptions = {
+//  Promise.race(itemList).then(render)
+Promise.all(itemList).then(processList)
+
+function processList (data) {
+  for (const i in data) {
+    for (const j in data[i]) {
+      data[i][j].then(data => segArr(j, data))
+    }
+  }
+}
+
+function segArr (j, data) {
+  segList[j] = []
+  while (data.length > 0) {
+    segList[j].push(data.splice(0, 15))
+  }
+}
+
+const btnCompOptions = {
   template: `<div><button v-on:click="$emit('alter', $event)">{{ nav }}</button></div>`,
   props: ['nav']
 }
 
-const navItemOptions = {
+const navCompOptions = {
   template: `<li v-on:click="$emit('story', $event)"><a href='#'>{{ item }}</a></li>`,
   props: ['item']
 }
 
-const pgNoOptions = {
+const pgNoCompOptions = {
   template: `<span>{{ pgno }}</span>`,
   props: ['pgno']
 }
@@ -30,6 +51,12 @@ const navOptions = {
   data: {
     story: 'top',
     navItems: ['TOP', 'NEW', 'BEST', 'SHOW', 'ASK', 'JOBS']
+  },
+  methods: {
+    setStory: function (e) {
+      this.story = e.target.text.toLowerCase()
+      main.story = this.story
+    }
   }
 }
 
@@ -40,6 +67,14 @@ const mainOptions = {
     story: 'top',
     button1: 'Prev',
     button2: 'Next'
+  },
+  methods: {
+    alterPgNo: function (e) {
+      if (e.target.textContent === 'Prev') {
+        this.pgno--
+      } else if (e.target.textContent === 'Next') {
+        this.pgno++
+      }
+    }
   }
 }
-
