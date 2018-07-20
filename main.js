@@ -1,11 +1,10 @@
 //  console.log(itemList)
 
-const segList = {}
-
 let nav
 let main
 
 function render (data) {
+  Vue.component('item-li', itemCompOptions)
   Vue.component('nav-items', navCompOptions)
   Vue.component('button-nav', btnCompOptions)
   Vue.component('pgno', pgNoCompOptions)
@@ -13,22 +12,27 @@ function render (data) {
   main = new Vue(mainOptions)
 }
 
-//  Promise.race(itemList).then(render)
-Promise.all(itemList).then(processList)
+Promise.all(itemList).then(processList).catch(console.error)
 
 function processList (data) {
   for (const i in data) {
     for (const j in data[i]) {
-      data[i][j].then(data => segArr(j, data))
+      data[i][j].then(data => segArr(j, data)).catch(console.error)
     }
   }
+  render()
 }
 
 function segArr (j, data) {
-  segList[j] = []
+  main.segList[j] = []
   while (data.length > 0) {
-    segList[j].push(data.splice(0, 15))
+    main.segList[j].push(data.splice(0, 15))
   }
+}
+
+const itemCompOptions = {
+  template: `<li>{{ item }}</li>`,
+  props: ['item']
 }
 
 const btnCompOptions = {
@@ -66,7 +70,8 @@ const mainOptions = {
     pgno: 1,
     story: 'top',
     button1: 'Prev',
-    button2: 'Next'
+    button2: 'Next',
+    segList: {}
   },
   methods: {
     alterPgNo: function (e) {
@@ -74,6 +79,15 @@ const mainOptions = {
         this.pgno--
       } else if (e.target.textContent === 'Next') {
         this.pgno++
+      }
+    }
+  },
+  computed: {
+    list: function () {
+      try {
+        return this.segList[this.story][this.pgno]
+      } catch (e) {
+        console.error(e)
       }
     }
   }
