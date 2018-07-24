@@ -11,17 +11,19 @@ const urls = {
 
 const url = 'https://hacker-news.firebaseio.com/v0/'
 
-let fetchedItems = {}
+let fetchedItems = []
 let segregatedList = []
-let items = {}
+let items = []
 
 for (let i in urls) {
-  fetchedItems[i] = fetch(`${url}${urls[i]}`).then(toJSON)
+  //  fetchedItems.push({[i]: fetch(`${url}${urls[i]}`).then(toJSON)})
+  fetch(`${url}${urls[i]}`).then(toJSON).then(data => { workerSegList.port.postMessage([i, data]) })
 }
 
-//  Promise.all(Object.values(fetchedItems)).then(sendToSegregate)
+//  Promise.all(fetchedItems).then(sendToWorker)
+//  Promise.all(fetchedItems).then(data => console.log(data[0]['top']))
 
-fetchedItems['top'].then(segregrateArray)
+//  fetchedItems['top'].then(segregrateArray)
 
 function toJSON (data) {
   return data.json()
@@ -32,8 +34,11 @@ function segregrateArray (list) {
   fetchItem(segregatedList)
 }
 
-/*  function sendToSegregate (itemList) {
-} */
+function sendToWorker (itemList) {
+  /*  for (let i of itemList) { 
+  } */
+  workerSegList.port.postMessage(itemList)
+}
 
 function fetchItem (list) {
   for (let i of list) {
