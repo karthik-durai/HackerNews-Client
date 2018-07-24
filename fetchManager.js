@@ -9,11 +9,10 @@ const urls = {
 
 const url = 'https://hacker-news.firebaseio.com/v0/'
 
-let listObj = {}
+let fetchedItems = {}
 
 for (let i in urls) {
-  //  fetch(`${url}${urls[i]}`).then(toJSON).then(console.log)
-  listObj[i] = fetch(`${url}${urls[i]}`).then(toJSON)
+  fetchedItems[i] = fetch(`${url}${urls[i]}`).then(toJSON)
 }
 
 function toJSON (data) {
@@ -22,4 +21,4 @@ function toJSON (data) {
 
 //  fetch(`${url}${urls['top']}`).then(toJSON).then(console.log)
 
-listObj['top'].then(console.log)
+fetchedItems['top'].then(console.log)
