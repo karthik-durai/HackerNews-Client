@@ -1,8 +1,8 @@
 const workerSegList = new SharedWorker('workerSegregateList.js')
 
 const urls = {
-  top: 'topstories.json',
-  new: 'newstories.json',
+  tops: 'topstories.json',
+  newest: 'newstories.json',
   best: 'beststories.json',
   ask: 'askstories.json',
   show: 'showstories.json',
@@ -16,11 +16,11 @@ let segregatedList = []
 let items = []
 
 for (let i in urls) {
-  //  fetchedItems.push({[i]: fetch(`${url}${urls[i]}`).then(toJSON)})
-  fetch(`${url}${urls[i]}`).then(toJSON).then(data => { workerSegList.port.postMessage([i, data]) })
+  fetchedItems.push({[i]: fetch(`${url}${urls[i]}`).then(toJSON)})
+  //  fetch(`${url}${urls[i]}`).then(toJSON).then(data => { workerSegList.port.postMessage([i, data]) })
 }
 
-//  Promise.all(fetchedItems).then(sendToWorker)
+Promise.all(fetchedItems).then(sendToWorker)
 //  Promise.all(fetchedItems).then(data => console.log(data[0]['top']))
 
 //  fetchedItems['top'].then(segregrateArray)
@@ -35,9 +35,17 @@ function segregrateArray (list) {
 }
 
 function sendToWorker (itemList) {
-  /*  for (let i of itemList) { 
-  } */
-  workerSegList.port.postMessage(itemList)
+  //  console.log(itemList)
+  let itemObj = []
+  for (let i of itemList) {
+    Object.values(i)[0].then(data => { itemObj[Object.keys(i)[0]] = data })
+  }
+  console.log(itemObj)
+  workerSegList.port.postMessage(itemObj)
+}
+
+function handleRejection (list) {
+  console.log('hello')
 }
 
 function fetchItem (list) {
