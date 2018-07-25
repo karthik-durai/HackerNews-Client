@@ -1,18 +1,12 @@
 onmessage = handleMessage
 
-let url
 let segregatedList = {}
 
 function handleMessage (e) {
-  if (e.data[0] === 'url') {
-    url = e.data[1]
-  } else {
-    segregateArray(e.data)
-  }
+  segregateArray(e.data)
 }
 
 function segregateArray (listObj) {
-  let tmpArr
   let story = listObj[0]
   let list = listObj[1]
   segregatedList[story] = []
