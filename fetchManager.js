@@ -1,4 +1,5 @@
 const workerSegregateList = new Worker('workerSegregateList.js')
+const workerUpdateList = new Worker('workerUpdateList.js')
 
 const urls = {
   tops: 'topstories.json',
@@ -11,9 +12,10 @@ const urls = {
 
 const url = 'https://hacker-news.firebaseio.com/v0/'
 
-workerSegregateList.postMessage(['url', url])
+workerUpdateList.postMessage(['url', url, urls])
 
 workerSegregateList.onmessage = handleMessages
+workerUpdateList.onmessage = handleMessages
 
 let fetchedItems = []
 let segregatedList = {}
@@ -50,10 +52,16 @@ function fetchItem (story, index, list) {
 function handleMessages (e) {
   if (e.data[0] === 'list') {
     segregatedList[e.data[1]][e.data[2]] = e.data[3]
+  } else if (e.data[0] === 'update') {
+    console.log(e.data[3])
+    fetchUpdatedItems(e.data)
+  } else if (e.data[0] === 'noChanges') {
+    console.log('no changes')
   }
 }
 
 function getItems (story, index, list = segregatedList) {
+  workerUpdateList.postMessage([story, index, list[story][index]])
   let stories = items[story][index]
   if (stories) {
     console.log('from memory')
@@ -61,5 +69,15 @@ function getItems (story, index, list = segregatedList) {
   } else {
     console.log('from network')
     fetchItem(story, index, list[story][index])
+  }
+}
+
+function fetchUpdatedItems ([message, story, index, difference]) {
+  if (Object.keys(difference).length > 0) {
+    for (let i of Object.keys(difference)) {
+       
+    }
+  } else {
+    console.log('no updates')
   }
 }
