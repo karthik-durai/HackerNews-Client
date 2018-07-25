@@ -44,10 +44,6 @@ function sendToWorker (itemList) {
   workerSegList.port.postMessage(itemObj)
 }
 
-function handleRejection (list) {
-  console.log('hello')
-}
-
 function fetchItem (list) {
   for (let i of list) {
     console.log(i)
