@@ -73,9 +73,11 @@ function getItems (story, index, list = segregatedList) {
 }
 
 function fetchUpdatedItems ([message, story, index, difference]) {
-  if (Object.keys(difference).length > 0) {
-    for (let i of Object.keys(difference)) {
-       
+  let indexList = Object.keys(difference)
+  let idList = Object.values(difference)
+  if (indexList.length > 0) {
+    for (let i in idList) {
+      fetch(`${url}/item/${idList[i]}.json`).then(toJSON).then((item) => { items[story][index][indexList[i]] = item })
     }
   } else {
     console.log('no updates')
