@@ -22,5 +22,4 @@ function segregateArray (listObj) {
     postMessage(['list', story, index, segregatedList[story][index]])
     index++
   }
-  //  console.log(segregratedList[story])
 }
