@@ -20,6 +20,7 @@ workerUpdateList.onmessage = handleMessages
 let fetchedItems = []
 let segregatedList = {}
 let items = {}
+let intervalId
 
 for (let story in urls) {
   segregatedList[story] = []
@@ -61,13 +62,14 @@ function handleMessages (e) {
 }
 
 function getItems (story, index, list = segregatedList) {
+  clearInterval(intervalId)
   workerUpdateList.postMessage([story, index, list[story][index]])
   let stories = items[story][index]
   if (stories) {
-    console.log('from memory')
+    //  console.log('from memory')
     return stories
   } else {
-    console.log('from network')
+    //  console.log('from network')
     fetchItem(story, index, list[story][index])
   }
 }
@@ -77,9 +79,17 @@ function fetchUpdatedItems ([message, story, index, difference]) {
   let idList = Object.values(difference)
   if (indexList.length > 0) {
     for (let i in idList) {
+      segregatedList[story][index][indexList[i]] = idList[i]
       fetch(`${url}/item/${idList[i]}.json`).then(toJSON).then((item) => { items[story][index][indexList[i]] = item })
     }
   } else {
     console.log('no updates')
   }
+  clearInterval(intervalId)
+  console.log(story)
+  intervalId = setInterval(periodicCheck, 10000, story, index)
+}
+
+function periodicCheck (story, index, list = segregatedList) {
+  workerUpdateList.postMessage([story, index, list[story][index]])
 }
