@@ -35,13 +35,15 @@ function toJSON (data) {
 }
 
 function segregateArray (list) {
-  fetchItem('top', 0, list.slice(0, 15))
+  fetchItem('tops', 0, list.slice(0, 15))
 }
 
 function fetchItem (story, index, list) {
+  let tempArray = []
   for (let id of list) {
-    fetch(`${url}item/${id}.json`).then(toJSON).then(data => { items[story][list.indexOf(data.id)] = data })
+    fetch(`${url}item/${id}.json`).then(toJSON).then(data => { tempArray[list.indexOf(data.id)] = data })
   }
+  items[story][index] = tempArray
   console.log(items)
 }
 
@@ -51,6 +53,13 @@ function handleMessages (e) {
   }
 }
 
-function getItems (story, index) {
-
+function getItems (story, index, list = segregatedList) {
+  let stories = items[story][index]
+  if (stories) {
+    console.log('from memory')
+    return stories
+  } else {
+    console.log('from network')
+    fetchItem(story, index, list[story][index])
+  }
 }
