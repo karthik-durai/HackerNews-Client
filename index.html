@@ -13,11 +13,9 @@
             v-bind:story="story"
             v-on:setstory="setstory">
           </stories-nav>
-          <page-nav
-            v-for="direction in directions"
-            v-bind:direction="direction"
-            v-on:setpagenum="setpagenum">
-          </page-nav>
+          <page-nav v-bind:direction="prev" v-bind:isdisabled="prevdisable" v-on:setpagenum="setpagenum"></page-nav>
+          <span>{{ pageNumber }}</span>
+          <page-nav v-bind:direction="next" v-bind:isdisabled="nextdisable" v-on:setpagenum="setpagenum"></page-nav>
         </nav>
       </header>
       <main>
@@ -28,7 +26,7 @@
       </main>
     </div>
     <script src="./vue.js"></script>
-    <!-- <script src="./fetchManager.js"></script> -->
+    <script src="./fetchManager.js"></script>
     <script src="./renderData.js"></script>
   </body>
 </html>
