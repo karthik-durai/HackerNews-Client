@@ -48,6 +48,7 @@ function fetchItem (story, index, list) {
   }
   items[story][index] = tempArray
   console.log(items[story][index])
+  return items[story][index]
 }
 
 function handleMessages (e) {
@@ -62,16 +63,14 @@ function handleMessages (e) {
 }
 
 function getItems (story, index, list = segregatedList) {
-  clearInterval(intervalId)
+  //  clearInterval(intervalId)
   workerUpdateList.postMessage([story, index, list[story][index]])
   let stories = items[story][index]
   if (stories) {
-    //  console.log('from memory')
     console.log(stories)
-    //  return stories
+    return stories
   } else {
-    //  console.log('from network')
-    fetchItem(story, index, list[story][index])
+    return fetchItem(story, index, list[story][index])
   }
 }
 
@@ -86,8 +85,7 @@ function fetchUpdatedItems ([message, story, index, difference]) {
   } else {
     console.log('no updates')
   }
-  clearInterval(intervalId)
-  //  console.log(story)
+  //  clearInterval(intervalId)
   //  intervalId = setInterval(periodicCheck, 10000, story, index)
 }
 
