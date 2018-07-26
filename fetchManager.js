@@ -87,7 +87,7 @@ function fetchUpdatedItems ([message, story, index, difference]) {
   }
   clearInterval(intervalId)
   console.log(story)
-  intervalId = setInterval(periodicCheck, 10000, story, index)
+  //  intervalId = setInterval(periodicCheck, 10000, story, index)
 }
 
 function periodicCheck (story, index, list = segregatedList) {
