@@ -10,7 +10,8 @@
         <nav>
           <nav-bar
             v-for="story in stories"
-            v-bind:story="story">
+            v-bind:story="story"
+            v-on:setstory="setstory">
           </nav-bar>
         </nav>
       </header>
