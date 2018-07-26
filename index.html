@@ -5,9 +5,15 @@
   </head>
   <body>
     <div id="app">
+      <nav>
+        <nav-bar
+          v-for="story in stories"
+          v-bind:story="story | uppercase">
+        </nav-bar>
+      </nav>
     </div>
     <script src="./vue.js"></script>
-    <script src="./fetchManager.js"></script>
+    <!-- <script src="./fetchManager.js"></script> -->
     <script src="./renderData.js"></script>
   </body>
 </html>
