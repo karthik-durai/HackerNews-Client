@@ -19,10 +19,13 @@
         </nav>
       </header>
       <main>
-       <items-container
+       <!-- <items-container
           v-for="item in itemList"
-          v:bind:item = "item">
-        </items-container>
+          v:bind:item="item">
+        </items-container> -->
+        <ul>
+          <li v-for="item in itemList">{{ "a" }}</li>
+        </ul>
       </main>
     </div>
     <script src="./vue.js"></script>
