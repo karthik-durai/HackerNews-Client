@@ -5,12 +5,15 @@
   </head>
   <body>
     <div id="app">
-      <nav>
-        <nav-bar
-          v-for="story in stories"
-          v-bind:story="story | uppercase">
-        </nav-bar>
-      </nav>
+      <header>
+        <h1>Hacker News Client</h1>
+        <nav>
+          <nav-bar
+            v-for="story in stories"
+            v-bind:story="story">
+          </nav-bar>
+        </nav>
+      </header>
     </div>
     <script src="./vue.js"></script>
     <!-- <script src="./fetchManager.js"></script> -->
