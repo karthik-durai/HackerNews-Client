@@ -42,13 +42,14 @@ function segregateArray (list) {
 }
 
 function fetchItem (story, index, list) {
-  let tempArray = []
+  //  let tempArray = []
+  items[story][index] = []
   for (let id of list) {
-    fetch(`${url}item/${id}.json`).then(toJSON).then(data => { tempArray[list.indexOf(data.id)] = data })
+    fetch(`${url}item/${id}.json`).then(toJSON).then(data => { items[story][index][list.indexOf(data.id)] = data })
   }
-  items[story][index] = tempArray
-  //  console.log(items[story][index])
-  return items[story][index]
+  //  items[story][index] = tempArray
+  console.log(items[story][index])
+  //  return items[story][index]
 }
 
 function handleMessages (e) {
@@ -68,7 +69,7 @@ function getItems (story, index, list = segregatedList) {
     //  console.log(stories)
     return stories
   } else {
-    return fetchItem(story, index, list[story][index])
+    fetchItem(story, index, list[story][index])
   }
 }
 
@@ -80,9 +81,9 @@ function fetchUpdatedItems ([message, story, index, difference]) {
       segregatedList[story][index][indexList[i]] = idList[i]
       fetch(`${url}/item/${idList[i]}.json`).then(toJSON).then((item) => { items[story][index][indexList[i]] = item })
     }
-  } else {
+  } /* else {
     console.log('no updates')
-  }
+  } */
   //  clearInterval(intervalId)
   //  intervalId = setInterval(periodicCheck, 10000, story, index)
 }
