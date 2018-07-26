@@ -2,8 +2,8 @@ const workerSegregateList = new Worker('workerSegregateList.js')
 const workerUpdateList = new Worker('workerUpdateList.js')
 
 const urls = {
-  tops: 'topstories.json',
-  newest: 'newstories.json',
+  top: 'topstories.json',
+  new: 'newstories.json',
   best: 'beststories.json',
   ask: 'askstories.json',
   show: 'showstories.json',
@@ -27,7 +27,7 @@ for (let story in urls) {
   items[story] = []
 }
 
-fetch(`${url}${urls['tops']}`).then(toJSON).then(segregateArray)
+fetch(`${url}${urls['top']}`).then(toJSON).then(segregateArray)
 
 for (let story in urls) {
   fetch(`${url}${urls[story]}`).then(toJSON).then(data => { workerSegregateList.postMessage([story, data]) })
@@ -38,7 +38,7 @@ function toJSON (data) {
 }
 
 function segregateArray (list) {
-  fetchItem('tops', 0, list.slice(0, 15))
+  fetchItem('top', 0, list.slice(0, 15))
 }
 
 function fetchItem (story, index, list) {
@@ -47,7 +47,7 @@ function fetchItem (story, index, list) {
     fetch(`${url}item/${id}.json`).then(toJSON).then(data => { tempArray[list.indexOf(data.id)] = data })
   }
   items[story][index] = tempArray
-  console.log(items)
+  console.log(items[story][index])
 }
 
 function handleMessages (e) {
@@ -67,7 +67,8 @@ function getItems (story, index, list = segregatedList) {
   let stories = items[story][index]
   if (stories) {
     //  console.log('from memory')
-    return stories
+    console.log(stories)
+    //  return stories
   } else {
     //  console.log('from network')
     fetchItem(story, index, list[story][index])
@@ -86,7 +87,7 @@ function fetchUpdatedItems ([message, story, index, difference]) {
     console.log('no updates')
   }
   clearInterval(intervalId)
-  console.log(story)
+  //  console.log(story)
   //  intervalId = setInterval(periodicCheck, 10000, story, index)
 }
 
