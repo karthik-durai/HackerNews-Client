@@ -8,13 +8,24 @@
       <header>
         <h1>Hacker News Client</h1>
         <nav>
-          <nav-bar
+          <stories-nav
             v-for="story in stories"
             v-bind:story="story"
             v-on:setstory="setstory">
-          </nav-bar>
+          </stories-nav>
+          <page-nav
+            v-for="direction in directions"
+            v-bind:direction="direction"
+            v-on:setpagenum="setpagenum">
+          </page-nav>
         </nav>
       </header>
+      <main>
+        <!-- <items-container
+          v-for="item in storyList"
+          v:bind:item = "item">
+        </items-container> -->
+      </main>
     </div>
     <script src="./vue.js"></script>
     <!-- <script src="./fetchManager.js"></script> -->
