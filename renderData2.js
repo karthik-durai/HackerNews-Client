@@ -1,5 +1,7 @@
 let items = {}
 let segregatedList = {}
+let comments = {}
+let users ={}
 
 console.log(items)
 let intervalId
@@ -23,9 +25,11 @@ const appOptions = {
   el: '#app',
   data: {
     itemList: [],
+    comments: [],
     stories: ['top', 'new', 'best', 'ask', 'show', 'jobs'],
     activeStory: 'top',
-    pagenumber: 1
+    pagenumber: 1,
+    show: true
   },
   mounted: function () {
     intervalId = setInterval(checkIfPopulated, 1000)
@@ -48,6 +52,10 @@ const appOptions = {
         getItems(this.activeStory, this.pagenumber - 1)
         populateItemList()
       }
+    },
+    populateComments: function (e) {
+      this.show = false
+      console.log(e)
     }
   },
   computed: {
@@ -66,7 +74,6 @@ const appOptions = {
           return false
         }
       } catch (e) {
-        //  console.log(e)
         return false
       }
     }
