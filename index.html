@@ -12,9 +12,9 @@
           v-bind:item="story"
           v-on:setstory="setstory">
         </stories-nav>
-        <button v-on:click="setpagenum" v-bind:class="{disabled: prevdisable}">prev</button>
+        <button v-on:click="setpagenum" v-bind:disabled = "prevdisable">prev</button>
         <span>{{ pagenumber }}</span>
-        <button v-on:click="setpagenum" v-bind:class="{disabled: nextdisable}">next</button>
+        <button v-on:click="setpagenum" v-bind:disabled = "nextdisable">next</button>
       </header>
       <main>
         <li v-for="item in itemList">{{ item.title }}</li>
