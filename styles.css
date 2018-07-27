@@ -1,0 +1,51 @@
+.nav-items {
+  display: inline-block;
+  margin-right: 10px;
+  flex: 1;
+  background-color: yellow;
+  text-align: center;
+}
+
+header h1 {
+  text-align: center
+}
+
+.stories-nav {
+  display: flex
+}
+
+.page-nav {
+  display: flex;
+  justify-content: center
+}
+
+.page-nav span {
+  margin: 7px
+}
+
+#items {
+  display: flex;
+  justify-content: center;
+}
+
+#items li {
+  border: 2px solid #f9a03f;
+  list-style-type: none;
+  padding-left: 100px;
+  margin-bottom: 5px
+}
+
+#items a {
+  text-decoration: none;
+  padding-left: 0px;
+}
+
+#items p {
+  display: flex;
+  justify-content: center
+}
+
+#items span {
+  flex: 1
+}
+
