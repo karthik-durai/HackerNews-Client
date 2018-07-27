@@ -12,15 +12,14 @@ const urls = {
 
 const url = 'https://hacker-news.firebaseio.com/v0/'
 
+let segregatedList = {}
+let fetchedItems = []
+
 workerUpdateList.postMessage(['url', url, urls])
 
 workerSegregateList.onmessage = handleMessages
 workerUpdateList.onmessage = handleMessages
 
-let fetchedItems = []
-let segregatedList = {}
-let items = {}
-let intervalId
 
 for (let story in urls) {
   segregatedList[story] = []
@@ -42,31 +41,25 @@ function segregateArray (list) {
 }
 
 function fetchItem (story, index, list) {
-  //  let tempArray = []
   items[story][index] = []
   for (let id of list) {
-    fetch(`${url}item/${id}.json`).then(toJSON).then(data => { items[story][index][list.indexOf(data.id)] = data })
+    //  fetch(`${url}item/${id}.json`).then(toJSON).then(data => { items[story][index][list.indexOf(data.id)] = data })
+    items[story][index].push(fetch(`${url}item/${id}.json`).then(toJSON))
   }
-  //  items[story][index] = tempArray
-  console.log(items[story][index])
-  //  return items[story][index]
 }
 
 function handleMessages (e) {
   if (e.data[0] === 'list') {
     segregatedList[e.data[1]][e.data[2]] = e.data[3]
   } else if (e.data[0] === 'update') {
-    //  console.log(e.data[3])
     fetchUpdatedItems(e.data)
   }
 }
 
 function getItems (story, index, list = segregatedList) {
-  //  clearInterval(intervalId)
   workerUpdateList.postMessage([story, index, list[story][index]])
   let stories = items[story][index]
   if (stories) {
-    //  console.log(stories)
     return stories
   } else {
     fetchItem(story, index, list[story][index])
@@ -79,23 +72,8 @@ function fetchUpdatedItems ([message, story, index, difference]) {
   if (indexList.length > 0) {
     for (let i in idList) {
       segregatedList[story][index][indexList[i]] = idList[i]
-      fetch(`${url}/item/${idList[i]}.json`).then(toJSON).then((item) => { items[story][index][indexList[i]] = item })
+      //  fetch(`${url}/item/${idList[i]}.json`).then(toJSON).then((item) => { items[story][index][indexList[i]] = item })
+      //  items[story][index][indexList[i]] = fetch(`${url}/item/${idList[i]}.json`).then(toJSON)
     }
-  } /* else {
-    console.log('no updates')
-  } */
-  //  clearInterval(intervalId)
-  //  intervalId = setInterval(periodicCheck, 10000, story, index)
-}
-
-/*  function periodicCheck (story, index, list = segregatedList) {
-  workerUpdateList.postMessage([story, index, list[story][index]])
-} */
-
-function checkIfFetched () {
-  if (items['top'].length > 0) {
-    return 'loaded'
-  } else {
-    return 'not loaded'
   }
 }
