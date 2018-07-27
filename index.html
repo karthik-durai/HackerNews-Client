@@ -9,6 +9,7 @@
         <h1>Hacker News Client</h1>
         <stories-nav
           v-for="story in stories"
+          v-bind:key="story.id"
           v-bind:item="story"
           v-on:setstory="setstory">
         </stories-nav>
@@ -17,7 +18,13 @@
         <button v-on:click="setpagenum" v-bind:disabled = "nextdisable">next</button>
       </header>
       <main>
-        <li v-for="item in itemList">{{ item.title }}</li>
+        <ul v-if="show">
+          <li v-for="item in itemList" ><a v-bind:href="item.url" target="_blank">{{ item.title }}</a><p v-on:click="populateComments(item.id)">comments</p></li>
+        </ul>
+        <ul v-else>
+          <p v-on:click="show = true">Back</p>
+          <li v-for="comment in comments">{{ comment }}</li>
+        </ul>
       </main>
     </div>
     <script src="./vue.js"></script>
