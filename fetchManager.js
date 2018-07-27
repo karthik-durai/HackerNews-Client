@@ -62,9 +62,10 @@ function getItems (story, index, list = segregatedList) {
   }
 }
 
-function fetchUpdatedItems ([message, story, index, difference]) {
+function fetchUpdatedItems ([_, story, index, difference]) {
   let indexList = Object.keys(difference)
   let idList = Object.values(difference)
+  console.log(idList)
   if (indexList.length > 0) {
     for (let i in idList) {
       items[story][index].splice(indexList[i], 1, fetch(`{url}item/${idList[i]}.json`).then(toJSON))
