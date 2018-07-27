@@ -4,6 +4,7 @@
   flex: 1;
   background-color: yellow;
   text-align: center;
+  cursor: pointer;
 }
 
 header h1 {
