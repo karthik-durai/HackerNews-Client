@@ -76,14 +76,11 @@ function fetchUpdatedItems ([message, story, index, difference]) {
 }
 
 function getComments (story, index, storyId) {
+  if (comments[storyId]) { return }
   comments[storyId] = []
   items[story][index].forEach(i => i.then(data => {
     if (storyId === data.id) {
       data.kids.forEach(i => comments[storyId].push(fetch(`${url}item/${i}.json`).then(toJSON)))
     }
   }))
-}
-
-function getUser (userName) {
-  users[userName] = fetch(`${url}user${userName}.json`)
 }
