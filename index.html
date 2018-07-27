@@ -7,9 +7,17 @@
     <div id="app">
       <header>
         <h1>Hacker News Client</h1>
+        <stories-nav
+          v-for="story in stories"
+          v-bind:item="story"
+          v-on:setstory="setstory">
+        </stories-nav>
+        <button v-on:click="setpagenum" v-bind:class="{disabled: prevdisable}">prev</button>
+        <span>{{ pagenumber }}</span>
+        <button v-on:click="setpagenum" v-bind:class="{disabled: nextdisable}">next</button>
       </header>
       <main>
-        <li v-for="item in itemList">{{ item }}</li>
+        <li v-for="item in itemList">{{ item.title }}</li>
       </main>
     </div>
     <script src="./vue.js"></script>

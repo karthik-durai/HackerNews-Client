@@ -12,7 +12,7 @@ const urls = {
 
 const url = 'https://hacker-news.firebaseio.com/v0/'
 
-let segregatedList = {}
+//  let segregatedList = {}
 let fetchedItems = []
 
 workerUpdateList.postMessage(['url', url, urls])
@@ -43,7 +43,6 @@ function segregateArray (list) {
 function fetchItem (story, index, list) {
   items[story][index] = []
   for (let id of list) {
-    //  fetch(`${url}item/${id}.json`).then(toJSON).then(data => { items[story][index][list.indexOf(data.id)] = data })
     items[story][index].push(fetch(`${url}item/${id}.json`).then(toJSON))
   }
 }
@@ -72,8 +71,6 @@ function fetchUpdatedItems ([message, story, index, difference]) {
   if (indexList.length > 0) {
     for (let i in idList) {
       segregatedList[story][index][indexList[i]] = idList[i]
-      //  fetch(`${url}/item/${idList[i]}.json`).then(toJSON).then((item) => { items[story][index][indexList[i]] = item })
-      //  items[story][index][indexList[i]] = fetch(`${url}/item/${idList[i]}.json`).then(toJSON)
     }
   }
 }
