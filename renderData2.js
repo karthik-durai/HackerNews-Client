@@ -1,9 +1,8 @@
 let items = {}
 let segregatedList = {}
 let comments = {}
-let users ={}
+let subComments = {}
 
-console.log(items)
 let intervalId
 
 
@@ -21,6 +20,11 @@ function populateItemList () {
   items[app.activeStory][app.pagenumber - 1].forEach(i => i.then(data => app.itemList.push(data)))
 }
 
+function populateComments (storyID) {
+  app.comments = []
+  comments[storyID].forEach(i => i.then(data => app.comments.push(data)))
+}
+
 const appOptions = {
   el: '#app',
   data: {
@@ -29,7 +33,7 @@ const appOptions = {
     stories: ['top', 'new', 'best', 'ask', 'show', 'jobs'],
     activeStory: 'top',
     pagenumber: 1,
-    show: true
+    showStories: true
   },
   mounted: function () {
     intervalId = setInterval(checkIfPopulated, 1000)
@@ -53,10 +57,11 @@ const appOptions = {
         populateItemList()
       }
     },
-    populateComments: function (e) {
-      this.show = false
-      console.log(e)
-    }
+    renderComments: function (storyID) {
+      this.showStories = false
+      getComments(this.activeStory, this.pagenumber - 1, storyID)
+      populateComments(storyID)
+    },
   },
   computed: {
     prevdisable: function () {
@@ -82,7 +87,7 @@ const appOptions = {
 
 const storyNavOptions = {
   props: ['item'],
-  template: `<ul><li v-on:click="$emit('setstory', $event)">{{ item }}</li></ul>`
+  template: `<li class="nav-items" v-on:click="$emit('setstory', $event)">{{ item }}</li>`
 }
 
 Vue.component('stories-nav', storyNavOptions)
