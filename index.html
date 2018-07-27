@@ -7,29 +7,13 @@
     <div id="app">
       <header>
         <h1>Hacker News Client</h1>
-        <nav>
-          <stories-nav
-            v-for="story in stories"
-            v-bind:story="story"
-            v-on:setstory="setstory">
-          </stories-nav>
-          <page-nav v-bind:direction="prev" v-bind:isdisabled="prevdisable" v-on:setpagenum="setpagenum"></page-nav>
-          <span>{{ pageNumber }}</span>
-          <page-nav v-bind:direction="next" v-bind:isdisabled="nextdisable" v-on:setpagenum="setpagenum"></page-nav>
-        </nav>
       </header>
       <main>
-       <!-- <items-container
-          v-for="item in itemList"
-          v:bind:item="item">
-        </items-container> -->
-        <ul>
-          <li v-for="item in itemList">{{ "a" }}</li>
-        </ul>
+        <li v-for="item in itemList">{{ item }}</li>
       </main>
     </div>
     <script src="./vue.js"></script>
+    <script src="./renderData2.js"></script>
     <script src="./fetchManager.js"></script>
-    <script src="./renderData.js"></script>
   </body>
 </html>
