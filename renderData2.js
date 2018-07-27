@@ -1,7 +1,6 @@
 let items = {}
 let segregatedList = {}
 let comments = {}
-let subComments = {}
 
 let intervalId
 
@@ -61,7 +60,7 @@ const appOptions = {
       this.showStories = false
       getComments(this.activeStory, this.pagenumber - 1, storyID)
       populateComments(storyID)
-    },
+    }
   },
   computed: {
     prevdisable: function () {

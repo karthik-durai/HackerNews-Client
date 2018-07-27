@@ -12,9 +12,6 @@ const urls = {
 
 const url = 'https://hacker-news.firebaseio.com/v0/'
 
-//  let segregatedList = {}
-let fetchedItems = []
-
 workerUpdateList.postMessage(['url', url, urls])
 
 workerSegregateList.onmessage = handleMessages
