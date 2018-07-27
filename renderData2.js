@@ -6,7 +6,7 @@ let intervalId
 
 
 function checkIfPopulated () {
-  if (items['top'][0]) {
+  if (items[app.activeStory][app.pagenumber - 1] && segregatedList[app.activeStory].length > 0) {
     clearInterval(intervalId)
     items['top'][0].forEach(i => i.then(data => app.itemList.push(data)))
   } else {
@@ -25,7 +25,7 @@ const appOptions = {
     itemList: [],
     stories: ['top', 'new', 'best', 'ask', 'show', 'jobs'],
     activeStory: 'top',
-    pagenumber: 1,
+    pagenumber: 1
   },
   mounted: function () {
     intervalId = setInterval(checkIfPopulated, 1000)
@@ -52,7 +52,23 @@ const appOptions = {
   },
   computed: {
     prevdisable: function () {
-      return true
+      if (this.pagenumber <= 1) {
+        return true
+      } else {
+        return false
+      }
+    },
+    nextdisable: function () {
+      try {
+        if (this.pagenumber >= segregatedList[this.activeStory].length) {
+          return true
+        } else {
+          return false
+        }
+      } catch (e) {
+        console.log(e)
+        return false
+      }
     }
   }
 }
