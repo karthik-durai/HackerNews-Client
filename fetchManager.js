@@ -70,7 +70,20 @@ function fetchUpdatedItems ([message, story, index, difference]) {
   let idList = Object.values(difference)
   if (indexList.length > 0) {
     for (let i in idList) {
-      segregatedList[story][index][indexList[i]] = idList[i]
+      items[story][index].splice(indexList[i], 1, fetch(`{url}item/${idList[i]}.json`).then(toJSON))
     }
   }
+}
+
+function getComments (story, index, storyId) {
+  comments[storyId] = []
+  items[story][index].forEach(i => i.then(data => {
+    if (storyId === data.id) {
+      data.kids.forEach(i => comments[storyId].push(fetch(`${url}item/${i}.json`).then(toJSON)))
+    }
+  }))
+}
+
+function getUser (userName) {
+  users[userName] = fetch(`${url}user${userName}.json`)
 }
