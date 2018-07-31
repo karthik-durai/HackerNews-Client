@@ -17,13 +17,13 @@ workerUpdateList.postMessage(['url', url, urls])
 workerSegregateList.onmessage = handleMessages
 workerUpdateList.onmessage = handleMessages
 
-let items = {}
-let segregatedList = {}
+//  let items = {}
+//  let segregatedList = {}
 
 
 for (let story in urls) {
-  segregatedList[story] = []
-  items[story] = []
+  app.segregatedList[story] = []
+  app.stories[story] = []
 }
 
 fetch(`${url}${urls['top']}`).then(toJSON).then(getTopFifteen).catch(console.log)
@@ -41,23 +41,23 @@ function getTopFifteen (list) {
 }
 
 function fetchEachItem (storyType, index, list) {
-  items[storyType][index] = []
+  app.stories[storyType][index] = []
   for (let id of list) {
-    items[storyType][index].push(fetch(`${url}item/${id}.json`).then(toJSON))
+    app.stories[storyType][index].push(fetch(`${url}item/${id}.json`).then(toJSON))
   }
 }
 
 function handleMessages (e) {
   if (e.data[0] === 'list') {
-    segregatedList[e.data[1]][e.data[2]] = e.data[3]
+    app.segregatedList[e.data[1]][e.data[2]] = e.data[3]
   } else if (e.data[0] === 'updatedList') {
     console.log(e.data)
   }
 }
 
-function getItems (storyType, index, list = segregatedList) {
+function getItems (storyType, index, list = app.segregatedList) {
   workerUpdateList.postMessage(['updateList', storyType, index, list[storyType][index]])
-  let stories = items[storyType][index]
+  let stories = app.stories[storyType][index]
   if (stories) {
     return stories
   } else {
