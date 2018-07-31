@@ -6,9 +6,9 @@ function handleMessage (e) {
   if (e.data[0] === 'url') {
     url = e.data[1]
     urls = e.data[2]
-  } else {
-    let [story, index, itemList] = e.data
-    fetchItems(story, index, itemList)
+  } else if (e.data[0] === 'updateList') {
+    let [_, storyType, index, oldList] = e.data
+    fetchList(storyType, index, oldList)
   }
 }
 
@@ -16,19 +16,21 @@ function toJSON (data) {
   return data.json()
 }
 
-function fetchItems (story, index, itemList) {
-  fetch(`${url}${urls[story]}`).then(toJSON).then((list) => { segregateList(story, index, itemList, list) })
+function fetchList (storyType, index, oldList) {
+  fetch(`${url}${urls[storyType]}`).then(toJSON).then((fetchedList) => { segregateList(storyType, index, oldList, fetchedList) }).catch(console.log)
 }
 
-function segregateList (story, index, oldItemList, list) {
-  let newItemList = list.slice(index * 15, (index * 15) + 15)
+function segregateList (storyType, index, oldList, fetchedList) {
+  let newList = fetchedList.slice(index * 15, (index * 15) + 15)
   let difference = {}
-  for (let i in newItemList) {
-    if (oldItemList[i] !== newItemList[i]) {
-      difference[i] = newItemList[i]
+  for (let i in newList) {
+    if (oldList[i] !== newList[i]) {
+      difference[i] = newList[i]
     }
   }
-  if (difference) {
-    postMessage(['update', story, index, difference])
+  if (Object.keys(difference) > 0) {
+    postMessage(['updatedList', storyType, index, difference])
+  } else {
+    console.log('no updates')
   }
 }
