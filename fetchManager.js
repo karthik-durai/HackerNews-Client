@@ -55,7 +55,7 @@ function handleMessages (e) {
   }
 }
 
-function getItems (storyType, index, list = app.segregatedList) {
+function fetchItems (storyType, index, list = app.segregatedList) {
   workerUpdateList.postMessage(['updateList', storyType, index, list[storyType][index]])
   let stories = app.stories[storyType][index]
   if (stories) {
