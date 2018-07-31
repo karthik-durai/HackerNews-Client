@@ -9,6 +9,11 @@
       <header>
         <h1>Hacker News Client</h1>
       </header>
+      <main>
+        <ul>
+          <li v-for="story in toBeRendered">{{ story.title }}</li>
+        </ul>
+      </main>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
     <script src="./render.js"></script>
