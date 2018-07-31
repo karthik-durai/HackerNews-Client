@@ -13,16 +13,18 @@ const appOptions = {
     populate: populateStories
   },
   mounted: function () {
+    this.toBeRendered.length = 15
     this.interval = setInterval(this.checkIfLoaded, 1000)
   },
   watch: {
     activePageNumber: function () {
       fetchItems(this.activeStoryType, this.activePageNumber - 1)
-      this.checkIfLoaded()
+      this.interval = setInterval(this.checkIfLoaded, 1000)
     },
     activeStoryType: function () {
       this.activePageNumber = 1
       fetchItems(this.activeStoryType, this.activePageNumber - 1)
+      this.interval = setInterval(this.checkIfLoaded, 1000)
     }
   }
 }
@@ -37,6 +39,7 @@ function checkIfLoaded () {
 }
 
 function populateStories (st, i, item) {
+  this.toBeRendered.fill('loading...')
   item.then(story => { this.toBeRendered.splice(this.stories[st][i].indexOf(item), 1, story) })
 }
 
