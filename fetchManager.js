@@ -59,7 +59,7 @@ function fetchItems (storyType, index, list = app.segregatedList) {
   workerUpdateList.postMessage(['updateList', storyType, index, list[storyType][index]])
   let stories = app.stories[storyType][index]
   if (stories) {
-    return stories
+    return
   } else {
     fetchEachItem(storyType, index, list[storyType][index])
   }
