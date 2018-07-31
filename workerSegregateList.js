@@ -7,13 +7,13 @@ function handleMessage (e) {
 }
 
 function segregateArray (listObj) {
-  let story = listObj[0]
+  let storyType = listObj[0]
   let list = listObj[1]
-  segregatedList[story] = []
+  segregatedList[storyType] = []
   let index = 0
   while (list.length > 0) {
-    segregatedList[story].push(list.splice(0, 15))
-    postMessage(['list', story, index, segregatedList[story][index]])
+    segregatedList[storyType].push(list.splice(0, 15))
+    postMessage(['list', storyType, index, segregatedList[storyType][index]])
     index++
   }
 }
