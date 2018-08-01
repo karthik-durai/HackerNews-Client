@@ -21,7 +21,6 @@ function fetchList (storyType, index, oldList) {
 }
 
 function segregateList (storyType, index, oldList, fetchedList) {
-  //  console.log(fetchedList.slice(index * 15, (index * 15) + 15))
   let newList = fetchedList.slice(index * 15, (index * 15) + 15)
   let toBeUpdated = {}
   for (let i in newList) {
@@ -29,9 +28,8 @@ function segregateList (storyType, index, oldList, fetchedList) {
       toBeUpdated[i] = newList[i]
     }
   }
-  //  console.log(toBeUpdated)
   if (Object.keys(toBeUpdated).length > 0) {
-    postMessage(['updatedList', storyType, index, toBeUpdated])
+    postMessage(['updatedList', storyType, index, oldList, toBeUpdated])
   } else {
     console.log('no updates')
   }
