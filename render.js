@@ -3,6 +3,7 @@ const appOptions = {
   data: {
     stories: {},
     segregatedList: {},
+    comments: {},
     activeStoryType: 'top',
     activePageNumber: 1,
     toBeRendered: [],
@@ -39,8 +40,9 @@ function checkIfLoaded () {
 
 function populateStories (st, i, item) {
   app.segregatedList[st][i] ? this.toBeRendered.length = app.segregatedList[st][i].length : this.toBeRendered.length = 15
-  this.toBeRendered.fill('loading...')
-  item.then(story => { this.toBeRendered.splice(this.stories[st][i].indexOf(item), 1, story) })
+  try {
+    item.then(story => { this.toBeRendered.splice(this.stories[st][i].indexOf(item), 1, story) })
+  } catch (e) { console.log(e) }
 }
 
 const app = new Vue(appOptions)
