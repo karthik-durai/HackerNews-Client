@@ -13,7 +13,6 @@ const appOptions = {
     populate: populateStories
   },
   mounted: function () {
-    this.toBeRendered.length = 15
     this.interval = setInterval(this.checkIfLoaded, 1000)
   },
   watch: {
@@ -39,6 +38,7 @@ function checkIfLoaded () {
 }
 
 function populateStories (st, i, item) {
+  app.segregatedList[st][i] ? this.toBeRendered.length = app.segregatedList[st][i].length : this.toBeRendered.length = 15
   this.toBeRendered.fill('loading...')
   item.then(story => { this.toBeRendered.splice(this.stories[st][i].indexOf(item), 1, story) })
 }
