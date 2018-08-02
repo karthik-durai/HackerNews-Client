@@ -13,13 +13,23 @@ const appOptions = {
     interval: '',
     showstories: 'true',
     showcomments: 'false',
-    showreplies: 'false'
+    showreplies: 'false',
+    storyTypes: ['top', 'new', 'best', 'show', 'ask', 'jobs'],
+    pageNumber: 0,
+    prev: 'prev',
+    next: 'next',
+    pageLimit: '',
+    text: ''
   },
   methods: {
     checkIfStoriesLoaded: checkIfStoriesLoadedFn,
     populateStories: populateStoriesFn,
     checkIfCommentsLoaded: checkIfCommentsLoadedFn,
-    populateComments: populateCommentsFn
+    populateComments: populateCommentsFn,
+    changeStoryType: changeStoryTypeFn,
+    handlePageNav: handlePageNavFn,
+    setParentId: setParentIdFn,
+    setChildId: setChildIdFn
   },
   mounted: function () {
     this.interval = setInterval(this.checkIfStoriesLoaded, 1000)
@@ -29,6 +39,7 @@ const appOptions = {
       this.showstories = true
       this.showcomments = false
       this.showreplies = false
+      this.activeParentId = 0
       fetchItems(this.activeStoryType, this.activePageNumber - 1)
       this.interval = setInterval(this.checkIfStoriesLoaded, 1000)
     },
@@ -37,19 +48,19 @@ const appOptions = {
       this.showcomments = false
       this.showreplies = false
       this.activePageNumber = 1
+      this.activeParentId = 0
+      this.toBeRendered.fill('')
       fetchItems(this.activeStoryType, this.activePageNumber - 1)
       this.interval = setInterval(this.checkIfStoriesLoaded, 1000)
     },
     activeParentId: function () {
       this.showstories = false
       this.showcomments = true
-      this.showreplies = false
+      //  this.showreplies = false
       getComments(this.activeStoryType, this.activePageNumber - 1, this.activeParentId)
       this.interval = setInterval(this.checkIfCommentsLoaded, 1000)
     },
     activeChildId: function () {
-      this.showcomments = false
-      this.showreplies = true
       getReplies(this.activeChildId, this.activeParentId)
       this.activeParentId = this.activeChildId
       this.interval = setInterval(this.checkIfCommentsLoaded, 1000)
@@ -63,6 +74,7 @@ function checkIfStoriesLoadedFn () {
   if (this.stories[st][i] && this.segregatedList[st][i]) {
     clearInterval(this.interval)
     this.toBeRendered.length = this.segregatedList[st][i].length
+    this.toBeRendered.fill('')
     this.stories[st][i].forEach((item) => { this.populateStories(st, i, item) })
   }
 }
@@ -76,12 +88,37 @@ function checkIfCommentsLoadedFn () {
   if (this.comments[ci]) {
     clearInterval(this.interval)
     this.toBeRendered.length = this.comments[ci].length
+    this.toBeRendered.fill('')
     this.comments[ci].forEach((item) => { this.populateComments(ci, item) })
   }
 }
 
 function populateCommentsFn (ci, item) {
   item.then(comment => { this.toBeRendered.splice(this.comments[ci].indexOf(item), 1, comment) })
+}
+
+function changeStoryTypeFn (e) {
+  this.activeStoryType = e.target.textContent
+  this.activePageNumber = 1
+}
+
+function handlePageNavFn (e) {
+  let direction = e.target.textContent
+  if (direction === 'prev') {
+    this.activePageNumber--
+  } else if (direction === 'next') {
+    this.activePageNumber++
+  }
+}
+
+function setParentIdFn (story) {
+  this.text = story.title
+  this.activeParentId = story.id
+}
+
+function setChildIdFn (comment) {
+  this.text = comment.text
+  this.activeChildId = comment.id
 }
 
 const app = new Vue(appOptions)
