@@ -3,12 +3,16 @@ const appOptions = {
   data: {
     stories: {},
     segregatedList: {},
+    kidsList: {},
     comments: {},
     activeStoryType: 'top',
     activePageNumber: 1,
     activeCommentId: 0,
+    activeCommentReplyId: 0,
     toBeRendered: [],
-    interval: ''
+    interval: '',
+    showstories: 'true',
+    showcomments: 'false'
   },
   methods: {
     checkIfStoriesLoaded: checkIfStoriesLoadedFn,
@@ -21,17 +25,27 @@ const appOptions = {
   },
   watch: {
     activePageNumber: function () {
+      this.showstories = true
+      this.showcomments = false
       fetchItems(this.activeStoryType, this.activePageNumber - 1)
       this.interval = setInterval(this.checkIfStoriesLoaded, 1000)
     },
     activeStoryType: function () {
+      this.showstories = true
+      this.showcomments = false
       this.activePageNumber = 1
       fetchItems(this.activeStoryType, this.activePageNumber - 1)
       this.interval = setInterval(this.checkIfStoriesLoaded, 1000)
     },
     activeCommentId: function () {
+      this.showstories = false
+      this.showcomments = true
       getComments(this.activeStoryType, this.activePageNumber - 1, this.activeCommentId)
       this.interval = setInterval(this.checkIfCommentsLoaded, 1000)
+    },
+    activeCommentsReplyId: function () {
+      this.showstories = false
+      this.showcomments = true
     }
   }
 }
@@ -39,7 +53,7 @@ const appOptions = {
 function checkIfStoriesLoadedFn () {
   let st = this.activeStoryType
   let i = this.activePageNumber - 1
-  if (this.stories[st][i]) {
+  if (this.stories[st][i] && this.segregatedList[st][i]) {
     clearInterval(this.interval)
     this.toBeRendered.length = this.segregatedList[st][i].length
     this.stories[st][i].forEach((item) => { this.populateStories(st, i, item) })

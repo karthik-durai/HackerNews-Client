@@ -64,27 +64,20 @@ function fetchItems (storyType, index, list = app.segregatedList) {
   }
 }
 
-function processUpdatedList ([_, storyType, index, oldList, toBeUpdated]) {
-  let idLocation = []
-  let idsFromUpdate = Object.values(toBeUpdated)
-  let indexesToBeChanged = Object.keys(toBeUpdated)
-  /*  for (let i in idsFromUpdate) {
-    idLocation.push(locateIdLocally(idsFromUpdate[i]))
-  } */
-  updateMainList(storyType, index, toBeUpdated)
-  //  fetchToUpdate(storyType, index, indexesToBeChanged, idLocation)
-  fetchToUpdate(storyType, index, toBeUpdated)
+function processUpdatedList ([_, storyType, index, oldList, newList]) {
+  updateMainList(storyType, index, newList)
+  fetchToUpdate(storyType, index, newList)
 }
 
-function updateMainList (storyType, index, updatedList) {
-  for (let i in updatedList) {
-    app.segregatedList[storyType][index].splice(i, 1, updatedList[i])
+function updateMainList (storyType, index, newList) {
+  for (let i in newList) {
+    app.segregatedList[storyType][index].splice(i, 1, newList[i])
   }
 }
 
-function fetchToUpdate (storyType, index, toBeUpdated) {
-  for (let i in toBeUpdated) {
-    app.stories[storyType][index].splice(i, 1, fetch(`${url}/item/${toBeUpdated[i]}.json`).then(toJSON))
+function fetchToUpdate (storyType, index, newList) {
+  for (let i in newList) {
+    app.stories[storyType][index].splice(i, 1, fetch(`${url}/item/${newList[i]}.json`).then(toJSON))
   }
 }
 
@@ -99,53 +92,18 @@ function getStory (storyType, index, storyId) {
 }
 
 function fetchComments (item) {
+  accumulateKids(item)
   app.comments[item.id] = []
   item.kids.forEach(id => {
     app.comments[item.id].push(fetch(`${url}/item/${id}.json`).then(toJSON))
   })
 }
 
-/*  function locateIdLocally (id) {
-  let list = app.segregatedList
-  let gotLocation = false
-  for (let i in list) {
-    for (let j of list[i]) {
-      if (j.includes(id)) {
-        gotLocation = true
-        return [i, list[i].indexOf(j), j.indexOf(id), id]
-      }
-    }
-  }
-  if (!gotLocation) return ['404', id]
+function accumulateKids (item) {
+  app.kidsList[item.id] = item.kids
 }
 
-function fetchToUpdate (storyType, index, indexesToBeChanged, idLocation) {
-  let tempObject = deepClone(app.stories)
-  for (let i of idLocation) {
-    let j = indexesToBeChanged.shift()
-    if (i[0] !== '404') {
-      console.log('got locally', i)
-      //  app.stories[storyType][index].splice(j, 1, tempObject[i[0]][i[1]][i[2]])
-      Vue.set(app.stories[storyType][index], j, tempObject[i[0]][i[1]][i[2]])
-    } else {
-      console.log('get from HN server', i[3])
-      //  fetch(`${url}/item/${i[3]}.json`).then(toJSON).then(console.log)
-      Vue.set(app.stories[storyType][index], j, fetch(`${url}/item/${i[3]}.json`).then(toJSON))
-      //  Vue.set(app.stories[storyType][index], j, 'yet to be fetched')
-    }
-  }
+function getReplies (commentId, parentId) {
+  let indexOfComment = app.kidsList[parentId].indexOf(commentId)
+  app.comments[parentId][indexOfComment].then(fetchComments)
 }
-
-
-function deepClone (theObject) {
-  console.log('called')
-  console.log(typeof theObject)
-  if (typeof theObject !== 'object') {
-    return theObject
-  }
-  let tempObject
-  for (let key in theObject) {
-    tempObject[key] = deepClone(theObject[key])
-  }
-  return tempObject
-} */

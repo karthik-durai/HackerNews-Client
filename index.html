@@ -10,12 +10,24 @@
         <h1>Hacker News Client</h1>
       </header>
       <main>
-        <ol>
-          <li v-for="story in toBeRendered">{{ story.title }}</li>
+        <ol v-if="showstories">
+          <stories
+            v-for="story of toBeRendered"
+            v-bind:key="story.id"
+            v-bind:story = "story">
+          <stories>
+        </ol>
+        <ol v-else-if="showcomments">
+          <comments
+            v-for="comment of toBeRendered"
+            v-bind:key="comment.id"
+            v-bind:comment="comment">
+          </comments>
         </ol>
       </main>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script src="./vuecomponents.js"></script>
     <script src="./render.js"></script>
     <script src="./fetchManager.js"></script>
   </body>
