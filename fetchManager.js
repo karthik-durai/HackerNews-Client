@@ -94,8 +94,8 @@ function getComments (storyType, index, storyId) {
 }
 
 function getStory (storyType, index, storyId) {
-  let story = app.segregatedList[storyType][index].indexOf(storyId)
-  return app.stories[storyType][index][story]
+  let storyIndex = app.segregatedList[storyType][index].indexOf(storyId)
+  return app.stories[storyType][index][storyIndex]
 }
 
 function fetchComments (item) {
