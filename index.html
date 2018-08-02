@@ -8,19 +8,40 @@
     <div id="app">
       <header>
         <h1>Hacker News Client</h1>
+        <ol>
+          <storytypes
+            v-for="storyType of storyTypes"
+            v-bind:storytype = "storyType"
+            v-on:story="changeStoryType">
+          </storytypes>
+        </ol>
+        <div v-if="showstories">
+          <pagenav
+            v-bind:direction = "prev"
+            v-on:changepage = "handlePageNav">
+          </pagenav>
+          <span>{{ activePageNumber }}</span>
+          <pagenav
+            v-bind:direction = "next"
+            v-on:changepage = "handlePageNav">
+          </pagenav>
+        </div>
       </header>
       <main>
         <ol v-if="showstories">
           <stories
             v-for="story of toBeRendered"
             v-bind:key="story.id"
+            v-on:rencomment="setParentId"
             v-bind:story = "story">
           <stories>
         </ol>
         <ol v-else-if="showcomments">
+          <header> {{ text }}</header>
           <comments
             v-for="comment of toBeRendered"
             v-bind:key="comment.id"
+            v-on:renreplies="setChildId"
             v-bind:comment="comment">
           </comments>
         </ol>
