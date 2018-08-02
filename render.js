@@ -7,12 +7,13 @@ const appOptions = {
     comments: {},
     activeStoryType: 'top',
     activePageNumber: 1,
-    activeCommentId: 0,
-    activeCommentReplyId: 0,
+    activeParentId: 0,
+    activeChildId: 0,
     toBeRendered: [],
     interval: '',
     showstories: 'true',
-    showcomments: 'false'
+    showcomments: 'false',
+    showreplies: 'false'
   },
   methods: {
     checkIfStoriesLoaded: checkIfStoriesLoadedFn,
@@ -27,25 +28,31 @@ const appOptions = {
     activePageNumber: function () {
       this.showstories = true
       this.showcomments = false
+      this.showreplies = false
       fetchItems(this.activeStoryType, this.activePageNumber - 1)
       this.interval = setInterval(this.checkIfStoriesLoaded, 1000)
     },
     activeStoryType: function () {
       this.showstories = true
       this.showcomments = false
+      this.showreplies = false
       this.activePageNumber = 1
       fetchItems(this.activeStoryType, this.activePageNumber - 1)
       this.interval = setInterval(this.checkIfStoriesLoaded, 1000)
     },
-    activeCommentId: function () {
+    activeParentId: function () {
       this.showstories = false
       this.showcomments = true
-      getComments(this.activeStoryType, this.activePageNumber - 1, this.activeCommentId)
+      this.showreplies = false
+      getComments(this.activeStoryType, this.activePageNumber - 1, this.activeParentId)
       this.interval = setInterval(this.checkIfCommentsLoaded, 1000)
     },
-    activeCommentsReplyId: function () {
-      this.showstories = false
-      this.showcomments = true
+    activeChildId: function () {
+      this.showcomments = false
+      this.showreplies = true
+      getReplies(this.activeChildId, this.activeParentId)
+      this.activeParentId = this.activeChildId
+      this.interval = setInterval(this.checkIfCommentsLoaded, 1000)
     }
   }
 }
@@ -65,7 +72,7 @@ function populateStoriesFn (st, i, item) {
 }
 
 function checkIfCommentsLoadedFn () {
-  let ci = this.activeCommentId
+  let ci = this.activeParentId
   if (this.comments[ci]) {
     clearInterval(this.interval)
     this.toBeRendered.length = this.comments[ci].length
