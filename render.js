@@ -6,43 +6,61 @@ const appOptions = {
     comments: {},
     activeStoryType: 'top',
     activePageNumber: 1,
+    activeCommentId: 0,
     toBeRendered: [],
     interval: ''
   },
   methods: {
-    checkIfLoaded: checkIfLoaded,
-    populate: populateStories
+    checkIfStoriesLoaded: checkIfStoriesLoadedFn,
+    populateStories: populateStoriesFn,
+    checkIfCommentsLoaded: checkIfCommentsLoadedFn,
+    populateComments: populateCommentsFn
   },
   mounted: function () {
-    this.interval = setInterval(this.checkIfLoaded, 1000)
+    this.interval = setInterval(this.checkIfStoriesLoaded, 1000)
   },
   watch: {
     activePageNumber: function () {
       fetchItems(this.activeStoryType, this.activePageNumber - 1)
-      this.interval = setInterval(this.checkIfLoaded, 1000)
+      this.interval = setInterval(this.checkIfStoriesLoaded, 1000)
     },
     activeStoryType: function () {
       this.activePageNumber = 1
       fetchItems(this.activeStoryType, this.activePageNumber - 1)
-      this.interval = setInterval(this.checkIfLoaded, 1000)
+      this.interval = setInterval(this.checkIfStoriesLoaded, 1000)
+    },
+    activeCommentId: function () {
+      getComments(this.activeStoryType, this.activePageNumber - 1, this.activeCommentId)
+      this.interval = setInterval(this.checkIfCommentsLoaded, 1000)
     }
   }
 }
 
-function checkIfLoaded () {
+function checkIfStoriesLoadedFn () {
   let st = this.activeStoryType
   let i = this.activePageNumber - 1
   if (this.stories[st][i]) {
     clearInterval(this.interval)
-    this.stories[st][i].forEach((item) => { this.populate(st, i, item) })
+    this.toBeRendered.length = this.segregatedList[st][i].length
+    this.stories[st][i].forEach((item) => { this.populateStories(st, i, item) })
   }
 }
 
-function populateStories (st, i, item) {
-  app.segregatedList[st][i] ? this.toBeRendered.length = app.segregatedList[st][i].length : this.toBeRendered.length = 15
-  try {
-    item.then(story => { this.toBeRendered.splice(this.stories[st][i].indexOf(item), 1, story) })
-  } catch (e) { console.log(e) }
+function populateStoriesFn (st, i, item) {
+  item.then(story => { this.toBeRendered.splice(this.stories[st][i].indexOf(item), 1, story) })
+}
+
+function checkIfCommentsLoadedFn () {
+  let ci = this.activeCommentId
+  if (this.comments[ci]) {
+    clearInterval(this.interval)
+    this.toBeRendered.length = this.comments[ci].length
+    this.comments[ci].forEach((item) => { this.populateComments(ci, item) })
+  }
+}
+
+function populateCommentsFn (ci, item) {
+  item.then(comment => { this.toBeRendered.splice(this.comments[ci].indexOf(item), 1, comment) })
 }
 
 const app = new Vue(appOptions)
