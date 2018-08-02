@@ -45,13 +45,6 @@
             v-bind:comment="comment">
           </comments>
         </ol>
-        <ol v-else-if="showreplies">
-          <comments
-            v-for="comment of toBeRendered"
-            v-bind:key="comment.id"
-            v-bind:comment="comment">
-          </comments>
-        </ol>
       </main>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
