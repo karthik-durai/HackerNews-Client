@@ -49,7 +49,6 @@ const appOptions = {
       this.showreplies = false
       this.activePageNumber = 1
       this.activeParentId = 0
-      this.toBeRendered.fill('')
       fetchItems(this.activeStoryType, this.activePageNumber - 1)
       this.interval = setInterval(this.checkIfStoriesLoaded, 1000)
     },
