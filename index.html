@@ -7,7 +7,7 @@
   <body>
     <div id="app">
       <header>
-        <h1>Hacker News Client</h1>
+        <h1>Hacker News - Client</h1>
         <ol>
           <storytypes
             v-for="storyType of storyTypes"
@@ -37,7 +37,7 @@
           <stories>
         </ol>
         <ol v-else-if="showcomments">
-          <header> {{ text }}</header>
+          <header v-html="text"></header>
           <comments
             v-for="comment of toBeRendered"
             v-bind:key="comment.id"
