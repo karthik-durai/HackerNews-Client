@@ -12,8 +12,8 @@ Vue.component('stories', storiesComponentOptions)
 const commentsComponentOptions = {
   props: ['comment'],
   template: `<li><p>{{ comment.text }}</p>
-                 <p><span>replies: {{ comment.kids.length ? comment.kids.length : 0 }}</span>
-                    <span>posted by: {{ comment.by }}</span></p><li>`
+                 <p><span>replies: {{ comment.kids ? comment.kids.length : 0 }}</span>
+                    <span>posted by: {{ comment.by }}</span></p></li>`
 }
 
 Vue.component('comments', commentsComponentOptions)
