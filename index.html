@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <div id="app">
+      <header>
+        <h1>Hacker News - Client</h1>
+        <ol class="storynav">
+          <storytypes
+            v-for="storyType of storyTypes"
+            v-bind:storytype = "storyType"
+            v-on:story="changeStoryType">
+          </storytypes>
+        </ol>
+        <div v-if="showstories" class="pagenav">
+          <pagenav
+            v-bind:direction = "prev"
+            v-on:changepage = "handlePageNav">
+          </pagenav>
+          <span>{{ activePageNumber }}</span>
+          <pagenav
+            v-bind:direction = "next"
+            v-on:changepage = "handlePageNav">
+          </pagenav>
+        </div>
+      </header>
+      <main>
+        <ol v-if="showstories" class="items">
+          <stories
+            v-for="story of toBeRendered"
+            v-bind:key="story.id"
+            v-on:rencomment="setParentId"
+            v-bind:story = "story">
+          <stories>
+        </ol>
+        <ol v-else-if="showcomments" class="comments">
+          <p v-html="text"></p>
+          <comments
+            v-for="comment of toBeRendered"
+            v-bind:key="comment.id"
+            v-on:renreplies="setChildId"
+            v-bind:comment="comment">
+          </comments>
+        </ol>
+      </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script src="./vuecomponents.js"></script>
+    <script src="./render.js"></script>
+    <script src="./fetchManager.js"></script>
+  </body>
+</html>
