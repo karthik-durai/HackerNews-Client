@@ -18,12 +18,14 @@
         <div v-if="showstories" class="pagenav">
           <pagenav
             v-bind:direction = "prev"
-            v-on:changepage = "handlePageNav">
+            v-on:changepage = "handlePageNav"
+            v-bind:isdisabled = "prevDisable">
           </pagenav>
           <span>{{ activePageNumber }}</span>
           <pagenav
             v-bind:direction = "next"
-            v-on:changepage = "handlePageNav">
+            v-on:changepage = "handlePageNav"
+            v-bind:isdisabled = "nextDisable">
           </pagenav>
         </div>
       </header>
