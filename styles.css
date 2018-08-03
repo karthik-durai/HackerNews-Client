@@ -53,13 +53,12 @@ header h1 {
 .comments {
   display: flex;
   flex-direction: column;
-  align-items: center
+  align-items: center;
 }
 
 .comments>p {
   border: 3px solid yellow;
-  height: 100px;
-  overflow: scroll
+  overflow: hidden;
 }
 
 .comments li {
@@ -74,6 +73,7 @@ header h1 {
   border: 5px solid black;
   height: 100px;
   overflow: scroll;
+  width: 800px;
   margin-top: 0px;
   margin-bottom: 0px;
   padding-bottom: 0px;
@@ -84,5 +84,14 @@ header h1 {
   margin-top: 0px;
   margin-bottom: 0px;
   display: flex;
-  justify-content: center
+  justify-content: space-evenly
+}
+
+.viewcomments {
+  cursor: pointer
+}
+
+.commentaccessories span {
+  border: 3px solid red;
+  margin-right:
 }
