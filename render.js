@@ -15,11 +15,9 @@ const appOptions = {
     showcomments: 'false',
     showreplies: 'false',
     storyTypes: ['top', 'new', 'best', 'show', 'ask', 'jobs'],
-    pageNumber: 0,
     prev: 'prev',
     next: 'next',
-    pageLimit: '',
-    text: ''
+    text: '',
   },
   methods: {
     checkIfStoriesLoaded: checkIfStoriesLoadedFn,
@@ -63,6 +61,24 @@ const appOptions = {
       getReplies(this.activeChildId, this.activeParentId)
       this.activeParentId = this.activeChildId
       this.interval = setInterval(this.checkIfCommentsLoaded, 1000)
+    }
+  },
+  computed: {
+    prevDisable: function () {
+      if (this.activePageNumber <= 1) {
+        return true
+      } else if (this.activePageNumber > 1) {
+        return false
+      }
+    },
+    nextDisable: function () {
+      try {
+        if (this.activePageNumber >= this.segregatedList[this.activeStoryType].length) {
+          return true
+        } else {
+          return false
+        }
+      } catch (err) { console.log('not loaded') }
     }
   }
 }
