@@ -8,14 +8,14 @@
     <div id="app">
       <header>
         <h1>Hacker News - Client</h1>
-        <ol>
+        <ol class="storynav">
           <storytypes
             v-for="storyType of storyTypes"
             v-bind:storytype = "storyType"
             v-on:story="changeStoryType">
           </storytypes>
         </ol>
-        <div v-if="showstories">
+        <div v-if="showstories" class="pagenav">
           <pagenav
             v-bind:direction = "prev"
             v-on:changepage = "handlePageNav">
@@ -28,7 +28,7 @@
         </div>
       </header>
       <main>
-        <ol v-if="showstories">
+        <ol v-if="showstories" class="items">
           <stories
             v-for="story of toBeRendered"
             v-bind:key="story.id"
@@ -36,8 +36,8 @@
             v-bind:story = "story">
           <stories>
         </ol>
-        <ol v-else-if="showcomments">
-          <header v-html="text"></header>
+        <ol v-else-if="showcomments" class="comments">
+          <p v-html="text"></p>
           <comments
             v-for="comment of toBeRendered"
             v-bind:key="comment.id"
