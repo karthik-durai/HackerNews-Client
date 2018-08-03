@@ -31,8 +31,8 @@ Vue.component('stories', storiesComponentOptions)
 
 const commentsComponentOptions = {
   props: ['comment'],
-  template: `<li><p v-html="comment.text"></p>
-                 <p><span v-on:click="$emit('renreplies', comment)">replies: {{ comment.kids ? comment.kids.length : 0 }}</span>
+  template: `<li><p v-html="comment.text" class="eachcomment"></p>
+                 <p class="commentaccessories"><span v-on:click="$emit('renreplies', comment)">replies: {{ comment.kids ? comment.kids.length : 0 }}
                     <span>posted by: {{ comment.by }}</span></p></li>`
 }
 
