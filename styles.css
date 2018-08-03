@@ -1,0 +1,88 @@
+header h1 { 
+  text-align: center
+}
+
+.storynav {
+  display: flex;
+  justify-content: space-evenly;
+  list-style: none
+}
+
+.storynav li {
+  cursor: pointer
+}
+
+.pagenav {
+  display: flex;
+  justify-content: center
+}
+
+.pagenav span {
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 3px
+}
+
+.items {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column
+}
+
+.items li {
+  border: 5px solid black;
+  margin-bottom: 2px;
+  display: flex;
+  flex-direction: column;
+  width: 900px;
+  padding-top: 10px;
+}
+
+.items li a {
+  border: 3px solid red;
+  text-align: center;
+}
+
+.items p {
+  border: 3px solid blue;
+  display: flex;
+  justify-content:space-evenly;
+}          
+
+.comments {
+  display: flex;
+  flex-direction: column;
+  align-items: center
+}
+
+.comments>p {
+  border: 3px solid yellow;
+  height: 100px;
+  overflow: scroll
+}
+
+.comments li {
+  border: 5px solid blue;
+  margin-bottom: 2px;
+  display: flex;
+  flex-direction: column;
+  height: 150px;
+}
+
+.eachcomment {
+  border: 5px solid black;
+  height: 100px;
+  overflow: scroll;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+}
+
+.commentaccessories {
+  border: 3px solid orange;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  display: flex;
+  justify-content: center
+}
