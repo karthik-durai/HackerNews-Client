@@ -1,3 +1,0 @@
-update stories of the curent page - working
-fetch comments
-Write CSS
