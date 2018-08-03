@@ -17,9 +17,6 @@ workerUpdateList.postMessage(['url', url, urls])
 workerSegregateList.onmessage = handleMessages
 workerUpdateList.onmessage = handleMessages
 
-//  let items = {}
-//  let segregatedList = {}
-
 
 for (let story in urls) {
   app.segregatedList[story] = []
