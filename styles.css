@@ -11,12 +11,16 @@ header h1 {
 
 .pagenav {
   display: grid;
-  grid-template-columns: 3fr 1fr 3fr
+  grid-template-columns: 3fr 1fr 3fr;
+}
+
+.pagenav button {
+  width: 40%;
 }
 
 .pagenav>span {
   text-align: center;
-  padding-top: 3px
+  padding-top: 3px;
 }
 
 main ol {
@@ -39,4 +43,3 @@ main ol li p {
   grid-template-columns: repeat(3, 1fr);
   border: 2px solid;
 }
-
