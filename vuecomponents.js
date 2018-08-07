@@ -22,7 +22,7 @@ Vue.component('pagecount', pageCountOptions)
 const storiesComponentOptions = {
   props: ['story'],
   template: `<li><a v-bind:title="story.url" v-bind:href="story.url" target="_blank">{{ story.title }}</a>
-                <p><span>score: {{ story.score }}</span>
+                <p class="storyaccessories"><span>score: {{ story.score }}</span>
                 <span v-on:click="$emit('rencomment', story)" class="viewcomments">comments: {{ story.descendants ? story.descendants : 0 }}</span>
                 <span>posted by: {{ story.by }}</span></p></li>`
 }

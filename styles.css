@@ -38,8 +38,17 @@ main ol li {
   text-align: center
 }
 
-main ol li p {
+.storyaccessories {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  border: 2px solid;
+}
+
+.viewcomments {
+  cursor: pointer
+}
+
+.eachcomment {
+  display: flex;
+  flex-direction: column;
+  border: 3px solid yellow
 }
