@@ -1,5 +1,9 @@
 header h1 {
-  text-align: center
+  text-align: center;
+  font-family: 'Times new roman', 'serif';
+  background-color: #0a0a0a;
+  color: #ffffff;
+  width: 100%;
 }
 
 .storynav {
@@ -7,15 +11,16 @@ header h1 {
   grid-template-columns: repeat(6, 1fr);
   grid-column-gap: 2px;
   list-style-type: none;
+  list-style: none;
+  font-family: 'Helvetica';
+  background-color: #003b64;
+  color: #fff200;
+  cursor: pointer
 }
 
 .pagenav {
   display: grid;
   grid-template-columns: 3fr 1fr 3fr;
-}
-
-.pagenav button {
-  width: 40%;
 }
 
 .pagenav>span {
@@ -26,16 +31,17 @@ header h1 {
 main ol {
   display: flex;
   flex-direction: column;
-  border: 2px solid aqua;
+  box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.5);
   list-style-type: none;
   padding-left: 0;
+  padding-top: 5px
 }
 
 main ol li {
   margin: 2px auto;
-  border: 2px solid;
   width: 90%;
-  text-align: center
+  text-align: center;
+  border-bottom: 3px solid
 }
 
 .storyaccessories {
@@ -50,7 +56,9 @@ main ol li {
 .eachcomment {
   display: flex;
   flex-direction: column;
-  border: 3px solid yellow
+  border: 1px solid black;
+  height: 20vh;
+  overflow: auto
 }
 
 .comments>p {
